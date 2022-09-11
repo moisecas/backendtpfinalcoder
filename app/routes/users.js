@@ -1,15 +1,16 @@
 const express = require('express')
 const router = express.Router()
+const { getItems, getItem, createItem, updateItem, deleteItem } = require('../controllers/users')
 
-router.post('/')
+router.post('/', createItem)
 
-router.get('/id')
+router.get('/id', getItem)
 
-router.get('/')
+router.get('/',getItems)
 
-router.patch('/:id')
+router.patch('/:id', updateItem)
 
-router.delete('/:id') 
+router.delete('/:id', deleteItem) 
 
 
 
