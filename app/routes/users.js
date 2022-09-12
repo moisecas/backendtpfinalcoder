@@ -5,19 +5,19 @@ const { getItems, getItem, createItem, updateItem, deleteItem } = require('../co
 
 
 // http://localhost:3000/api/users
-router.post('/', checkOrigin, createItem)
+router.post('/', createItem)
 
-// http://localhost:3000/api/users/:1
-router.get('/:id', getItem)
+// http://localhost:3000/api/users/1
+router.get('/id', getItem)
 
 // http://localhost:3000/api/users
 router.get('/',getItems)
 
-// http://localhost:3000/api/users/:1
-router.patch('/:id', updateItem)
+// http://localhost:3000/api/users/1
+router.patch('/id', updateItem)
 
-// http://localhost:3000/api/users/:1
-router.delete('/:id', deleteItem) 
+// http://localhost:3000/api/users/1
+router.delete('/id', deleteItem) 
 
 
 

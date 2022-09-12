@@ -1,3 +1,4 @@
+const { request } = require('express')
 const {httpError} = require('../helpers/handleError') // importamos el manejador de errores
 //conecto con mi db
 const userModel = require('../models/users') // importo el modelo de datos de mi coleccion
@@ -13,8 +14,13 @@ const  getItems= async (req,res)=>{
     }
 }
 
-const getItem=(req,res)=>{
-    
+const getItem= async (req,res)=>{
+    //buscar un registro por id userModel id
+    const id = toString (req.params.id) //convierto el id a entero
+    const user = await userModel.findOne({id}) // busco un registro por id
+    res.send({user}) // envio la respuesta al cliente 
+   
+   
 }
 
 const  createItem= async (req,res)=>{
@@ -29,11 +35,15 @@ const  createItem= async (req,res)=>{
 }
 
 const  updateItem=(req,res)=>{
+    const {id} = req.params
+    res.send({data:id})
     
 }
 
 const  deleteItem=(req,res)=>{ 
-
+    const {id} = req.params
+    res.send({data:id})
+    
 }
 
 module.exports={ getItems, getItem, createItem, updateItem, deleteItem }

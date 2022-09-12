@@ -13,6 +13,7 @@ const UsersSchema = new mongoose.Schema({
     password: {
         type: String,
     },
+    
 },{
     timestamps: true // this will automatically add the createdAt and the updatedAt field for us 
 }) // timestamps: true => createdAt, updatedAt (mongoose) 
