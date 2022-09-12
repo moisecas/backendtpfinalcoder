@@ -2,14 +2,44 @@ require('dotenv').config()
 const epxress = require('express')
 const cors = require('cors')
 const app = epxress()
+const path = require('path')
+const passport = require('passport')
+const flash = require('connect-flash')
+const morgan = require('morgan') // morgan => ver las peticiones que se hacen en la consola
+const cookieParser = require('cookie-parser')
+const bodyparser = require('body-parser')
+const session = require('express-session')
 const { dbConnect } = require('./config/mongo')
+
+
 
 const PORT = process.env.PORT || 3000
 app.use(cors())
 app.use(epxress.json())
 
 // routes
-app.use('/api/users', require('./app/routes')) // http://localhost:3000/api/users 
+app.use('/api/1.0', require('./app/routes')) // http://localhost:3000/api/users
+
+// static files
+app.use(epxress.static(path.join(__dirname, 'public')))  
+
+app.set('views', path.join(__dirname, 'views')) // views => carpeta donde se guardan las vistas
+app.set('view engine', 'ejs') // motor de plantillas
+
+// middlewares
+app.use(morgan('dev')) // morgan => ver las peticiones que se hacen en la consola
+app.use(cookieParser()) // leer las cookies
+app.use(bodyparser.urlencoded({ extended: false })) // leer los datos de los formularios, false => no acepta imagenes
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session()) // para guardar la sesion
+app.use(flash()) // para mostrar mensajes de error en la vista 
+
+
 
 dbConnect()
 app.listen(PORT, () => {
