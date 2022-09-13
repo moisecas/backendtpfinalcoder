@@ -19,6 +19,7 @@ app.use(epxress.json())
 
 // routes
 app.use('/api/1.0', require('./app/routes')) // http://localhost:3000/api/users
+// require('./app/config/passport')(app,passport) // pass passport for configuration ')
 
 // static files
 app.use(epxress.static(path.join(__dirname, 'public')))  
@@ -39,7 +40,24 @@ app.use(passport.initialize())
 app.use(passport.session()) // para guardar la sesion
 app.use(flash()) // para mostrar mensajes de error en la vista 
 
+// routes
+//mostrar el formulario de login
+app.get('/', (req, res) => {
+    res.render('index.ejs')  
+})
 
+//login
+app.get('/login', (req, res, next) => {
+    res.render('login.ejs',{ message: req.flash('loginMessage') })
+})
+app.post('/login',(req,res) => {}) // procesar el formulario de login 
+
+//signup
+app.get('/signup', (req, res, next) => {
+    res.render('signup.ejs',{ message: req.flash('signupMessage') })
+})
+
+app.post('/signup',(req,res) => {}) // procesar el formulario de signup
 
 dbConnect()
 app.listen(PORT, () => {

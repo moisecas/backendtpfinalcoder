@@ -1,0 +1,12 @@
+.login{
+    background-color: #56ab2f;
+    background: -webkit-linear-gradient(to right, #a8e063, #56ab2f);
+    background: linear-gradient(to right, #a8e063, #56ab2f);
+}
+
+.signup{
+    background-color: blue;
+    background: -webkit-linear-gradient(to right, #a8e, #56ab2f);
+    background: linear-gradient(to right, #a8e063, #2f6fab);
+
+}
