@@ -15,18 +15,25 @@ const  getItems= async (req,res)=>{
 }
 
 const getItem= async (req,res)=>{
-    //buscar un registro por id userModel id
-    const id = toString (req.params.id) //convierto el id a entero
-    const user = await userModel.findOne({id}) // busco un registro por id
-    res.send({user}) // envio la respuesta al cliente 
+    //buscar por id userModel id
+    try {
+        const {id} = req.params // obtengo el id de la url
+       
+        const resDetail = await userModel.findOne({id}) // busco el registro por id
+        res.send({data:resDetail}) // envio la respuesta al cliente
+        
+    } catch (e) {
+        res.send({data:e}) // envio la respuesta al cliente 
+    } 
+   
    
    
 }
 
 const  createItem= async (req,res)=>{
     try {
-        const {name, age,email, password} = req.body
-        const resDetail = await userModel.create({name, age,email, password}) // inserto en la base de datos, responda con el detalle del registro insertado
+        const {id,name, age,email, password} = req.body
+        const resDetail = await userModel.create({id,name, age,email, password}) // inserto en la base de datos, responda con el detalle del registro insertado
         res.send({data:resDetail}) // envio la respuesta al cliente
     } catch (e) {
         httpError(res,e) // si hay un error lo manejamos con el manejador de errores
@@ -40,9 +47,17 @@ const  updateItem=(req,res)=>{
     
 }
 
-const  deleteItem=(req,res)=>{ 
-    const {id} = req.params
-    res.send({data:id})
+const  deleteItem= async (req,res)=>{ 
+   //delete por id 
+    try {
+        const {id} = req.params // obtengo el id de la url
+       
+        const resDetail = await userModel.deleteOne({id}) // elimino el registro por id
+        res.send({data:resDetail}) // envio la respuesta al cliente
+        
+    } catch (e) {
+        res.send({data:e}) // envio la respuesta al cliente 
+    }
     
 }
 
