@@ -8,7 +8,7 @@ const { getItems, getItem, createItem, updateItem, deleteItem } = require('../co
 router.post('/', createItem)
 
 // http://localhost:3000/api/users/1
-router.get('/id', getItem)
+router.get('/:id', getItem)
 
 // http://localhost:3000/api/users
 router.get('/',getItems)
@@ -17,7 +17,7 @@ router.get('/',getItems)
 router.patch('/id', updateItem)
 
 // http://localhost:3000/api/users/1
-router.delete('/id', deleteItem) 
+router.delete('/:id', deleteItem) 
 
 
 

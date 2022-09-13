@@ -24,6 +24,6 @@ router.get('*',(req, res) => {
     res.status(404)
     res.send('404 not found') 
     
-})
+}) 
 
 module.exports = router 
