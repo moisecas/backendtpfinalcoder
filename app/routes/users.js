@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 const checkOrigin = require('../middleware/origin') // middleware para vigilar el origen de la peticion lo incluimos en todas las rutas
 const { getItems, getItem, createItem, updateItem, deleteItem } = require('../controllers/users')
+const isLoggedIn = require('../middleware/validate') // middleware para vigilar el origen de la peticion lo incluimos en todas las rutas
 
-
-// http://localhost:3000/api/users
+// http://localhost:3000/api/users 
 router.post('/', createItem)
 
 // http://localhost:3000/api/users/1

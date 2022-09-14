@@ -13,13 +13,14 @@ const { dbConnect } = require('./config/mongo')
 
 
 
+
 const PORT = process.env.PORT || 3000
 app.use(cors())
 app.use(epxress.json())
 
 // routes
 app.use('/api/1.0', require('./app/routes')) // http://localhost:3000/api/users
-// require('./app/config/passport')(app,passport) // pass passport for configuration ')
+require('./config/passport')(passport) // pass passport for configuration ')
 
 // static files
 app.use(epxress.static(path.join(__dirname, 'public')))  
@@ -41,7 +42,7 @@ app.use(passport.session()) // para guardar la sesion
 app.use(flash()) // para mostrar mensajes de error en la vista 
 
 // routes
-//mostrar el formulario de login
+// mostrar el formulario de login
 app.get('/', (req, res) => {
     res.render('index.ejs')  
 })
@@ -50,17 +51,48 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res, next) => {
     res.render('login.ejs',{ message: req.flash('loginMessage') })
 })
-app.post('/login',(req,res) => {}) // procesar el formulario de login 
+app.post('/login', passport.authenticate('local-login',{
+    successRedirect: '/profile',
+    failureRedirect: '/login',
+    failureFlash: true
+
+})) // procesar el formulario de login 
 
 //signup
 app.get('/signup', (req, res, next) => {
     res.render('signup.ejs',{ message: req.flash('signupMessage') })
 })
 
-app.post('/signup',(req,res) => {}) // procesar el formulario de signup
+//profile
+app.get('/profile',isLoggedIn,(req, res) => {
+    res.render('profile.ejs',{ user: req.user }) // req.user => usuario que ha iniciado sesion
+})
+
+app.post('/signup', passport.authenticate('local-signup',{
+    successRedirect: '/profile', // redireccionar a la ruta profile en caso de exito 
+    failureRedirect: '/signup', // si hay un error, redireccionar a signup
+    failureFlash: true //enviar mensajes de error
+})) // procesar el formulario de signup
+
+//logout
+app.get('/logout', (req, res) => {
+    req.logout() //metodo que proporciona passport para cerrar sesion
+    res.redirect('/') // redireccionar a la ruta principal
+
+})
+
+//verifica si esta autenticado
+function isLoggedIn(req, res, next) {
+    if(req.isAuthenticated()){ //authenticated metodo que proporciona passport para verificar si esta autenticado
+        return next()
+    } 
+        
+    return res.redirect('/')
+}
 
 dbConnect()
 app.listen(PORT, () => {
     console.log('API ok corriendo en ', PORT)
 })
 
+module.exports = isLoggedIn

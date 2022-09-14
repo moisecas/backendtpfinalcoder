@@ -16,11 +16,7 @@
                     <h1 class="text-center">
                         <span class="fa fa-sing-in">Login</span>
                     </h1>
-                    <%= if (message.length > 0) { %>
-                        <div class="alert alert-danger" role="alert">
-                            <%= message %>
-                        </div>
-                    <% } %>
+                    
                     <form action="/login" method="post" >
                         <div class="form-group">
                             <label for="email">Email</label>
