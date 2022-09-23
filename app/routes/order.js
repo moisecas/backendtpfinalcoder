@@ -1,9 +1,10 @@
+const express = require('express')
 const router = express.Router()
 const  {getOrders, createOrder, updateOrder, deleteOrder, orderId} = require('../controllers/orders') 
 
-//post
+//post 
 // http://localhost:3000/api/1.0/orders
-router.post('/', createOrder) 
+router.post('/', createOrder)
 
 //get id
 // http://localhost:3000/api/1.0/orders/1
@@ -17,7 +18,9 @@ router.get('/',getOrders)
 // http://localhost:3000/api/1.0/orders/1
 router.patch('/:id', updateOrder)
 
-
 //delete
 // http://localhost:3000/api/1.0/orders/1
-router.delete('/:id', deleteOrder) 
+router.delete('/:id', deleteOrder)
+
+module.exports = router 
+
